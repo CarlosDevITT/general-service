@@ -16,8 +16,9 @@ function initSpatialJourney(){
  if(!gsap||!ScrollTrigger||!section||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
  gsap.registerPlugin(ScrollTrigger);section.classList.add('gsap-journey');
  const steps=gsap.utils.toArray('.spatial-step',section);const paths=gsap.utils.toArray('.journey-path',section);const dots=gsap.utils.toArray('.journey-dot',section);
- // Layout centers each card via left:0/right:0 + auto margins. GSAP owns transforms exclusively.
- gsap.set(steps,{x:0,y:0,autoAlpha:0,z:-360,scale:.76,filter:'blur(4px)',transformOrigin:'50% 50%',force3D:true});
+ // Flexbox owns horizontal centering. Clear legacy horizontal transforms before GSAP takes over animation transforms.
+ gsap.set(steps,{clearProps:'x,xPercent'});
+ gsap.set(steps,{y:0,autoAlpha:0,z:-200,scale:.8,filter:'blur(4px)',transformOrigin:'50% 50%',force3D:true});
  paths.forEach(path=>{const length=path.getTotalLength();gsap.set(path,{strokeDasharray:length,strokeDashoffset:length,autoAlpha:.22});path.dataset.length=length});
  gsap.set(dots,{autoAlpha:0,scale:.4,transformOrigin:'50% 50%'});
  const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:section,start:'top top',end:'+=260%',pin:'.spatial-sticky',scrub:.65,anticipatePin:1,invalidateOnRefresh:true}});
