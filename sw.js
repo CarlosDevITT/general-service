@@ -1,37 +1,11 @@
-const VERSION='v2';
+const VERSION='v3';
 const STATIC_CACHE=`state-services-static-${VERSION}`;
 const RUNTIME_CACHE=`state-services-runtime-${VERSION}`;
-const APP_SHELL=['/','/index.html','/styles.css','/spatial-fix.css','/main.js','/manifest.json','/src/data/services.js','/src/utils/currency.js','/img/logo.png'];
+const APP_SHELL=['/','/index.html','/styles.css','/spatial-fix.css','/main.js','/manifest.json','/src/data/services.js','/src/utils/currency.js','/img/logo.png','/img/app-icon.svg','/img/app-icon-maskable.svg'];
 
-self.addEventListener('install',event=>{
-  event.waitUntil(caches.open(STATIC_CACHE).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting()));
-});
-
-self.addEventListener('activate',event=>{
-  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>!key.endsWith(VERSION)).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));
-});
-
-async function networkFirst(request,fallback){
-  try{
-    const response=await fetch(request,{cache:'no-store'});
-    if(response&&response.ok){const cache=await caches.open(RUNTIME_CACHE);cache.put(request,response.clone());}
-    return response;
-  }catch(error){return (await caches.match(request))||(fallback?await caches.match(fallback):undefined)||Response.error();}
-}
-
-async function staleWhileRevalidate(request){
-  const cached=await caches.match(request);
-  const network=fetch(request).then(async response=>{if(response&&response.ok){const cache=await caches.open(RUNTIME_CACHE);cache.put(request,response.clone());}return response;}).catch(()=>null);
-  return cached||(await network)||Response.error();
-}
-
-self.addEventListener('fetch',event=>{
-  const request=event.request;if(request.method!=='GET')return;
-  const url=new URL(request.url);if(url.origin!==self.location.origin)return;
-  if(request.mode==='navigate'){event.respondWith(networkFirst(request,'/index.html'));return;}
-  if(['script','style','worker','manifest'].includes(request.destination)){event.respondWith(networkFirst(request));return;}
-  if(request.destination==='image'){event.respondWith(staleWhileRevalidate(request));return;}
-  event.respondWith(networkFirst(request));
-});
-
-self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();});
+self.addEventListener('install',event=>{event.waitUntil(caches.open(STATIC_CACHE).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting()))});
+self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>!key.endsWith(VERSION)).map(key=>caches.delete(key)))).then(()=>self.clients.claim()))});
+async function networkFirst(request,fallback){try{const response=await fetch(request,{cache:'no-store'});if(response&&response.ok){const cache=await caches.open(RUNTIME_CACHE);cache.put(request,response.clone())}return response}catch(error){return(await caches.match(request))||(fallback?await caches.match(fallback):undefined)||Response.error()}}
+async function staleWhileRevalidate(request){const cached=await caches.match(request);const network=fetch(request).then(async response=>{if(response&&response.ok){const cache=await caches.open(RUNTIME_CACHE);cache.put(request,response.clone())}return response}).catch(()=>null);return cached||(await network)||Response.error()}
+self.addEventListener('fetch',event=>{const request=event.request;if(request.method!=='GET')return;const url=new URL(request.url);if(url.origin!==self.location.origin)return;if(request.mode==='navigate'){event.respondWith(networkFirst(request,'/index.html'));return}if(['script','style','worker','manifest'].includes(request.destination)){event.respondWith(networkFirst(request));return}if(request.destination==='image'){event.respondWith(staleWhileRevalidate(request));return}event.respondWith(networkFirst(request))});
+self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting()});
