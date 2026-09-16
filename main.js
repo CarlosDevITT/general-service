@@ -1,53 +1,31 @@
 import { services } from './src/data/services.js';
 import { formatServicePrice } from './src/utils/currency.js';
 
-const icons = {
-  maintenance: 'ri-tools-line', painting: 'ri-paint-brush-line', plumbing: 'ri-drop-line',
-  electrical: 'ri-flashlight-line', cleaning: 'ri-sparkling-line', automotive: 'ri-car-line',
-  assembly: 'ri-hammer-line', gardening: 'ri-plant-line'
-};
-const categoryNames = {maintenance:'Reparos',painting:'Pintura',plumbing:'Hidráulica',electrical:'Elétrica',cleaning:'Limpeza',automotive:'Automotivo',assembly:'Montagem',gardening:'Jardinagem'};
-
-const grid = document.querySelector('#services-grid');
-const emptyState = document.querySelector('#empty-state');
-const searchInput = document.querySelector('#service-search');
-const clearSearch = document.querySelector('#clear-search');
-const chips = [...document.querySelectorAll('.category-chip')];
-const modal = document.querySelector('#service-modal');
-let activeCategory = 'all';
-let selectedService = null;
-
+const icons = {maintenance:'ri-tools-line',painting:'ri-paint-brush-line',plumbing:'ri-drop-line',electrical:'ri-flashlight-line',cleaning:'ri-sparkling-line',automotive:'ri-car-line',assembly:'ri-hammer-line',gardening:'ri-plant-line','air-conditioning':'ri-temp-cold-line',appliances:'ri-home-gear-line',technology:'ri-computer-line',security:'ri-shield-keyhole-line',beauty:'ri-scissors-line',pets:'ri-bear-smile-line',events:'ri-camera-line',moving:'ri-truck-line',professional:'ri-graduation-cap-line'};
+const categoryNames={maintenance:'Reparos',painting:'Pintura',plumbing:'Hidráulica',electrical:'Elétrica',cleaning:'Limpeza',automotive:'Automotivo',assembly:'Montagem',gardening:'Jardinagem','air-conditioning':'Climatização',appliances:'Eletrodomésticos',technology:'Tecnologia',security:'Segurança',beauty:'Beleza',pets:'Pets',events:'Eventos',moving:'Fretes',professional:'Profissionais'};
+const grid=document.querySelector('#services-grid');const emptyState=document.querySelector('#empty-state');const searchInput=document.querySelector('#service-search');const clearSearch=document.querySelector('#clear-search');const chips=[...document.querySelectorAll('.category-chip')];const modal=document.querySelector('#service-modal');let activeCategory='all';let selectedService=null;
 function normalized(value=''){return value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
-function renderServices(){
-  const query = normalized(searchInput?.value.trim());
-  const filtered = services.filter(service => service.active && (activeCategory === 'all' || service.category === activeCategory) && (!query || normalized(`${service.name} ${service.description} ${categoryNames[service.category] || ''}`).includes(query)));
-  grid.innerHTML = filtered.map(service => `<article class="service-card" data-service-id="${service.id}"><div class="service-card__icon"><i class="${icons[service.category] || 'ri-tools-line'}"></i></div><span class="service-card__category">${categoryNames[service.category] || 'Serviço'}</span><h3>${service.name}</h3><p>${service.description}</p><div class="service-card__footer"><span class="service-card__price">${formatServicePrice(service)}</span><button class="service-card__action" type="button" aria-label="Ver ${service.name}"><i class="ri-arrow-right-line"></i></button></div></article>`).join('');
-  emptyState.hidden = filtered.length > 0;
-}
-function openService(service){
-  selectedService = service;
-  document.querySelector('#modal-title').textContent = service.name;
-  document.querySelector('#modal-description').textContent = service.description;
-  document.querySelector('#modal-price').textContent = formatServicePrice(service);
-  document.querySelector('#modal-icon').innerHTML = `<i class="${icons[service.category] || 'ri-tools-line'}"></i>`;
-  modal.hidden = false; document.body.style.overflow='hidden';
-  modal.querySelector('.modal__close').focus();
-}
-function closeModal(){modal.hidden=true;document.body.style.overflow='';selectedService=null}
-function showToast(message){const toast=document.querySelector('#toast');toast.textContent=message;toast.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove('show'),2800)}
+function renderServices(){const query=normalized(searchInput?.value.trim());const filtered=services.filter(service=>service.active&&(activeCategory==='all'||service.category===activeCategory)&&(!query||normalized(`${service.name} ${service.description} ${categoryNames[service.category]||''}`).includes(query)));grid.innerHTML=filtered.map(service=>`<article class="service-card" data-service-id="${service.id}"><div class="service-card__icon"><i class="${icons[service.category]||'ri-tools-line'}"></i></div><span class="service-card__category">${categoryNames[service.category]||'Serviço'}</span><h3>${service.name}</h3><p>${service.description}</p><div class="service-card__footer"><span class="service-card__price">${formatServicePrice(service)}</span><button class="service-card__action" type="button" aria-label="Ver ${service.name}"><i class="ri-arrow-right-line"></i></button></div></article>`).join('');emptyState.hidden=filtered.length>0}
+function openService(service){selectedService=service;document.querySelector('#modal-title').textContent=service.name;document.querySelector('#modal-description').textContent=service.description;document.querySelector('#modal-price').textContent=formatServicePrice(service);document.querySelector('#modal-icon').innerHTML=`<i class="${icons[service.category]||'ri-tools-line'}"></i>`;modal.hidden=false;document.body.style.overflow='hidden';modal.querySelector('.modal__close').focus()}
+function closeModal(){modal.hidden=true;document.body.style.overflow='';selectedService=null}function showToast(message){const toast=document.querySelector('#toast');toast.textContent=message;toast.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove('show'),2800)}
+grid.addEventListener('click',event=>{const card=event.target.closest('[data-service-id]');if(!card)return;const service=services.find(item=>item.id===card.dataset.serviceId);if(service)openService(service)});chips.forEach(chip=>chip.addEventListener('click',()=>{activeCategory=chip.dataset.category;chips.forEach(item=>item.classList.toggle('active',item===chip));renderServices()}));searchInput?.addEventListener('input',renderServices);clearSearch?.addEventListener('click',()=>{searchInput.value='';searchInput.focus();renderServices()});modal.addEventListener('click',event=>{if(event.target.closest('[data-close-modal]'))closeModal()});document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!modal.hidden)closeModal()});document.querySelector('#request-service').addEventListener('click',()=>{const name=selectedService?.name;closeModal();showToast(name?`${name} selecionado. Fluxo de solicitação será a próxima etapa.`:'Serviço selecionado.')});document.querySelector('#custom-request').addEventListener('click',()=>showToast('Atendimento personalizado será conectado na próxima etapa.'));document.querySelector('#year').textContent=new Date().getFullYear();
+const sections=[...document.querySelectorAll('section[id]')];const navLinks=[...document.querySelectorAll('.bottom-nav a')];function updateNavigation(){let current='home';sections.forEach(section=>{if(window.scrollY>=section.offsetTop-180)current=section.id});navLinks.forEach(link=>link.classList.toggle('active-link',link.getAttribute('href')===`#${current}`))}window.addEventListener('scroll',updateNavigation,{passive:true});
 
-grid.addEventListener('click',event=>{const card=event.target.closest('[data-service-id]');if(!card)return;const service=services.find(item=>item.id===card.dataset.serviceId);if(service)openService(service)});
-chips.forEach(chip=>chip.addEventListener('click',()=>{activeCategory=chip.dataset.category;chips.forEach(item=>item.classList.toggle('active',item===chip));renderServices()}));
-searchInput?.addEventListener('input',renderServices);
-clearSearch?.addEventListener('click',()=>{searchInput.value='';searchInput.focus();renderServices()});
-modal.addEventListener('click',event=>{if(event.target.closest('[data-close-modal]'))closeModal()});
-document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!modal.hidden)closeModal()});
-document.querySelector('#request-service').addEventListener('click',()=>{const name=selectedService?.name;closeModal();showToast(name?`${name} selecionado. Fluxo de solicitação será a próxima etapa.`:'Serviço selecionado.')});
-document.querySelector('#custom-request').addEventListener('click',()=>showToast('Atendimento personalizado será conectado na próxima etapa.'));
-document.querySelector('#year').textContent=new Date().getFullYear();
-
-const sections=[...document.querySelectorAll('section[id]')];
-const navLinks=[...document.querySelectorAll('.bottom-nav a')];
-function updateNavigation(){let current='home';sections.forEach(section=>{if(window.scrollY>=section.offsetTop-180)current=section.id});navLinks.forEach(link=>link.classList.toggle('active-link',link.getAttribute('href')===`#${current}`))}
-window.addEventListener('scroll',updateNavigation,{passive:true});
-renderServices();updateNavigation();
+function initSpatialJourney(){
+  const gsap=window.gsap;const ScrollTrigger=window.ScrollTrigger;const section=document.querySelector('.how-spatial');
+  if(!gsap||!ScrollTrigger||!section||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  gsap.registerPlugin(ScrollTrigger);
+  section.classList.add('gsap-journey');
+  const steps=gsap.utils.toArray('.spatial-step',section);const paths=gsap.utils.toArray('.journey-path',section);const dots=gsap.utils.toArray('.journey-dot',section);
+  gsap.set(steps,{autoAlpha:0,z:-900,scale:.35,filter:'blur(7px)',transformOrigin:'50% 50%'});
+  gsap.set(paths,{strokeDasharray:1,strokeDashoffset:1,autoAlpha:.2});gsap.set(dots,{autoAlpha:0,scale:.25,transformOrigin:'50% 50%'});
+  const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:section,start:'top top',end:'+=300%',pin:'.spatial-sticky',scrub:.75,anticipatePin:1,invalidateOnRefresh:true}});
+  steps.forEach((step,index)=>{
+    const at=index*1.15;
+    tl.to(step,{autoAlpha:1,z:0,scale:1,filter:'blur(0px)',duration:.72,ease:'power2.out'},at);
+    if(index<paths.length){tl.to(paths[index],{strokeDashoffset:0,autoAlpha:1,duration:.48},at+.62).to(dots[index],{autoAlpha:1,scale:1,duration:.18,ease:'back.out(2)'},at+.84)}
+  });
+  tl.to(steps,{y:-6,duration:.25},steps.length*1.15+.05);
+  window.addEventListener('load',()=>ScrollTrigger.refresh(),{once:true});
+}
+renderServices();updateNavigation();initSpatialJourney();
