@@ -1,22 +1,37 @@
-const CACHE_NAME='state-services-v1';
-const APP_SHELL=['/','/index.html','/styles.css','/spatial-fix.css','/main.js','/manifest.json','/src/data/services.js','/src/utils/currency.js'];
+const VERSION='v2';
+const STATIC_CACHE=`state-services-static-${VERSION}`;
+const RUNTIME_CACHE=`state-services-runtime-${VERSION}`;
+const APP_SHELL=['/','/index.html','/styles.css','/spatial-fix.css','/main.js','/manifest.json','/src/data/services.js','/src/utils/currency.js','/img/logo.png'];
 
 self.addEventListener('install',event=>{
-  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting()));
+  event.waitUntil(caches.open(STATIC_CACHE).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting()));
 });
 
 self.addEventListener('activate',event=>{
-  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));
+  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>!key.endsWith(VERSION)).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));
 });
 
+async function networkFirst(request,fallback){
+  try{
+    const response=await fetch(request,{cache:'no-store'});
+    if(response&&response.ok){const cache=await caches.open(RUNTIME_CACHE);cache.put(request,response.clone());}
+    return response;
+  }catch(error){return (await caches.match(request))||(fallback?await caches.match(fallback):undefined)||Response.error();}
+}
+
+async function staleWhileRevalidate(request){
+  const cached=await caches.match(request);
+  const network=fetch(request).then(async response=>{if(response&&response.ok){const cache=await caches.open(RUNTIME_CACHE);cache.put(request,response.clone());}return response;}).catch(()=>null);
+  return cached||(await network)||Response.error();
+}
+
 self.addEventListener('fetch',event=>{
-  const request=event.request;
-  if(request.method!=='GET')return;
-  const url=new URL(request.url);
-  if(url.origin!==self.location.origin)return;
-  if(request.mode==='navigate'){
-    event.respondWith(fetch(request).then(response=>{const copy=response.clone();caches.open(CACHE_NAME).then(cache=>cache.put('/index.html',copy));return response}).catch(()=>caches.match('/index.html')));
-    return;
-  }
-  event.respondWith(fetch(request).then(response=>{if(response.ok){const copy=response.clone();caches.open(CACHE_NAME).then(cache=>cache.put(request,copy));}return response}).catch(()=>caches.match(request)));
+  const request=event.request;if(request.method!=='GET')return;
+  const url=new URL(request.url);if(url.origin!==self.location.origin)return;
+  if(request.mode==='navigate'){event.respondWith(networkFirst(request,'/index.html'));return;}
+  if(['script','style','worker','manifest'].includes(request.destination)){event.respondWith(networkFirst(request));return;}
+  if(request.destination==='image'){event.respondWith(staleWhileRevalidate(request));return;}
+  event.respondWith(networkFirst(request));
 });
+
+self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();});
