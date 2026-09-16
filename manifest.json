@@ -4,17 +4,22 @@
   "short_name": "State Services",
   "description": "Plataforma para solicitar, agendar e acompanhar serviços.",
   "lang": "pt-BR",
-  "start_url": "/",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
   "orientation": "portrait-primary",
-  "theme_color": "#111827",
+  "theme_color": "#070b12",
   "background_color": "#070b12",
+  "categories": ["business", "productivity", "utilities"],
   "icons": [
-    {
-      "src": "/img/logo.png",
-      "type": "image/png",
-      "purpose": "any"
-    }
+    {"src":"/img/app-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"},
+    {"src":"/img/app-icon-maskable.svg","sizes":"any","type":"image/svg+xml","purpose":"maskable"},
+    {"src":"/img/logo.png","type":"image/png","purpose":"any"}
+  ],
+  "shortcuts": [
+    {"name":"Ver serviços","short_name":"Serviços","url":"/#services","icons":[{"src":"/img/app-icon.svg","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Como funciona","short_name":"Como funciona","url":"/#how-it-works","icons":[{"src":"/img/app-icon.svg","sizes":"any","type":"image/svg+xml"}]}
   ]
 }
