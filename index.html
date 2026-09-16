@@ -1,357 +1,105 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
-      <link rel="manifest" href="manifest.json">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"/>
-      <!--=============== REMIXICONS ===============-->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Encontre serviços para sua casa, empresa ou veículo e solicite atendimento de forma simples.">
+  <link rel="icon" href="img/logo.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+  <link rel="stylesheet" href="styles.css">
+  <title>State Services | Serviços sob demanda</title>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="State Services - início">
+      <img src="img/logo.png" alt="" width="44" height="44">
+      <span><strong>State</strong> Services</span>
+    </a>
+    <a class="header-action" href="#services"><i class="ri-search-line"></i><span>Buscar serviço</span></a>
+  </header>
 
-      <link rel="stylesheet" href="./service/style.css">
-      <link rel="stylesheet" href="./cart/estilo.css">
-      <!--=============== CSS ===============-->
-      <link rel="stylesheet" href="styles.css">
-      <title>Serviços geral </title>
-   </head>
-   <body>
-      <!--=============== NAVBAR ===============-->
-      <nav class="nav">
-         <ul class="nav__list">
-            <li>
-               <a href="#home" class="nav__link active-link">
-                  <i class="ri-home-smile-2-line"></i>
-               </a>
-            </li>
-
-            <li>
-               <a href="#about" class="nav__link">
-                  <i class="ri-user-line"></i>
-               </a>
-            </li>
-
-            <!-- Expand list -->
-            <li>
-               <button class="nav__expand" id="nav-expand">
-                  <i class="ri-add-line nav__expand-icon" id="nav-expand-icon"></i>
-               </button>
-
-               <ul class="nav__expand-list" id="nav-expand-list">
-                  <li>
-                     <a href="#" class="nav__expand-link">
-                        <i class="ri-image-2-line"></i>
-                        <span>Gallery</span>
-                     </a>
-                  </li>
-      
-                  <li>
-                     <a href="#" class="nav__expand-link">
-                        <i class="ri-archive-line"></i>
-                        <span>Files</span>
-                     </a>
-                  </li>
-      
-                  <li>
-                     <a href="#" class="nav__expand-link">
-                        <i class="ri-bookmark-3-line"></i>
-                        <span>Saved</span>
-                     </a>
-                  </li>
-               </ul>
-            </li>
-         
-            <li>
-               <a href="#projects" class="nav__link">
-                  <i class="ri-briefcase-line"></i>
-               </a>
-            </li>
-
-            <li>
-               <a href="#contact" class="nav__link">
-                  <i class="ri-send-plane-line"></i>
-               </a>
-            </li>
-         </ul>
-      </nav>
-
-    <!--==================== MAIN ====================-->
-      <main class="container">
-        <!-- Seção Home com Serviços -->
-        <section  id="home"> 
-         <h2 class="section-heading">Nossos Serviços</h2>
-          <div class="row">
-            <div class="column">
-              <div class="card" onclick="openModal('Reparos Gerais', 'Realizamos reparos em geral, incluindo pequenos consertos em móveis, portas, janelas e muito mais.')">
-                <div class="icon-wrapper">
-                  <i class="fas fa-hammer"></i>
-                </div>
-                <h3>Reparos Gerais</h3>
-                <p>
-                  Realizamos reparos em geral, incluindo pequenos consertos em móveis, portas, janelas e muito mais.
-                </p>
-              </div>
-            </div>
-            <div class="column">
-              <div class="card" onclick="openModal('Pintura', 'Serviços de pintura residencial e comercial, com qualidade e acabamento impecável.')">
-                <div class="icon-wrapper">
-                  <i class="fas fa-brush"></i>
-                </div>
-                <h3>Pintura</h3>
-                <p>
-                  Serviços de pintura residencial e comercial, com qualidade e acabamento impecável.
-                </p>
-              </div>
-            </div>
-            <div class="column">
-              <div class="card" onclick="openModal('Manutenção Hidráulica', 'Solucionamos vazamentos, trocamos torneiras e realizamos manutenção em encanamentos.')">
-                <div class="icon-wrapper">
-                  <i class="fas fa-wrench"></i>
-                </div>
-                <h3>Manutenção Hidráulica</h3>
-                <p>
-                  Solucionamos vazamentos, trocamos torneiras e realizamos manutenção em encanamentos.
-                </p>
-              </div>
-            </div>
-            <div class="column">
-              <div class="card" onclick="openModal('Lavagem de Carro', 'Que tal lavar o carro sem sair de casa? Serviço de lavagem sob demanda através do site.')">
-                <div class="icon-wrapper">
-                  <i class="fa-solid fa-car-side"></i>
-                </div>
-                <h3>Lavagem de Carro</h3>
-                <p>
-                  Que tal lavar o carro sem sair de casa? Serviço de lavagem sob demanda através do site.
-                </p>
-              </div>
-            </div>
-            <div class="column">
-              <div class="card" onclick="openModal('Limpeza', 'Serviços de limpeza residencial e comercial, incluindo pós-obra e limpeza pesada.')">
-                <div class="icon-wrapper">
-                  <i class="fas fa-broom"></i>
-                </div>
-                <h3>Limpeza</h3>
-                <p>
-                  Serviços de limpeza residencial e comercial, incluindo pós-obra e limpeza pesada.
-                </p>
-              </div>
-            </div>
-            <div class="column">
-              <div class="card" onclick="openModal('Instalações Elétricas', 'Realizamos instalações e reparos elétricos com segurança e eficiência.')">
-                <div class="icon-wrapper">
-                  <i class="fas fa-plug"></i>
-                </div>
-                <h3>Instalações Elétricas</h3>
-                <p>
-                  Realizamos instalações e reparos elétricos com segurança e eficiência.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-  
-        <!-- Seção About -->
-        <section id="about">
-            <div class="about__container container">
-              <div class="about__content">
-                <h2 class="about__title">Sobre Nós</h2>
-                <p class="about__description">
-                  Somos uma empresa especializada em serviços gerais, oferecendo soluções de qualidade para reparos, pintura, manutenção hidráulica, elétrica e muito mais. Nosso objetivo é proporcionar praticidade e segurança para nossos clientes, com profissionais altamente qualificados e um atendimento personalizado.
-                </p>
-                <ul class="about__list">
-                  <li class="about__item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Profissionais certificados</span>
-                  </li>
-                  <li class="about__item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Atendimento rápido e eficiente</span>
-                  </li>
-                  <li class="about__item">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Preços justos e transparentes</span>
-                  </li>
-                </ul>
-                <button class="about__button" onclick="redirectToWhatsApp()">Fale Conosco</button>
-              </div>
-              <div class="about__image">
-                <img src="img/logo.png" alt="Sobre Nós" />
-              </div>
-            </div>
-        </section>
-  
-        <!-- Seção Projects -->
-       
-        <section class="containe" id="projects">
-                  <!-- Container de elementos -->
-              <div class="container-itens">
-         <div class="item">
-             <span class="titulo-item">Reparos Gerais</span>
-             <img src="img/logo.png" alt="" class="imagem-item">
-             <span class="preco-item">R$150.00</span>
-             <button class="botao-item">Adicionar ao Carrinho</button>
-         </div>
-         <div class="item">
-             <span class="titulo-item">Pintura Residencial</span>
-             <img src="img/logo.png" alt="" class="imagem-item">
-             <span class="preco-item">R$25.000</span>
-             <button class="botao-item">Adicionar ao Carrinho</button>
-         </div>
-         <div class="item">
-             <span class="titulo-item">Manutenção Hidráulica</span>
-             <img src="img/logo.png" alt="" class="imagem-item">
-             <span class="preco-item">R$35.000</span>
-             <button class="botao-item">Adicionar ao Carrinho</button>
-         </div>
-         <div class="item">
-             <span class="titulo-item">Instalações Elétricas</span>
-             <img src="img/logo.png" alt="" class="imagem-item">
-             <span class="preco-item">R$18.000</span>
-             <button class="botao-item">Adicionar ao Carrinho</button>
-         </div>
-         <div class="item">
-             <span class="titulo-item">Limpeza Pós-Obra</span>
-             <img src="img/logo.png" alt="" class="imagem-item">
-             <span class="preco-item">R$32.000</span>
-             <button class="botao-item">Adicionar ao Carrinho</button>
-         </div>
-         <div class="item">
-             <span class="titulo-item">Lavagem de Carro</span>
-             <img src="img/logo.png" alt="" class="imagem-item">
-             <span class="preco-item">R$150.00</span>
-             <button class="botao-item">Adicionar ao Carrinho</button>
-         </div>
-         <div class="item">
-             <span class="titulo-item">Montagem de Móveis</span>
-             <img src="img/logo.png" alt="" class="imagem-item">
-             <span class="preco-item">R$54.000</span>
-             <button class="botao-item">Adicionar ao Carrinho</button>
-         </div>
-         <div class="item">
-             <span class="titulo-item">Jardinagem</span>
-             <img src="img/logo.png" alt="" class="imagem-item">
-             <span class="preco-item">R$32.000</span>
-             <button class="botao-item">Adicionar ao Carrinho</button>
-         </div>
-         <div class="item">
-             <span class="titulo-item">Serviços de Encanamento</span>
-             <img src="img/logo.png" alt="" class="imagem-item">
-             <span class="preco-item">R$42.800</span>
-             <button class="botao-item">Adicionar ao Carrinho</button>
-         </div>
-              </div>
-                  <!-- Carrinho de Compras -->
-                  <div class="carrinho" id="carrinho">
-                      <div class="cabecalho-carrinho">
-                          <h1>Seu Carrinho</h1>
-                      </div>
-          
-                      <div class="carrinho-itens">
-                          <!-- 
-                          <div class="carrinho-item">
-                              <img src="img/logo.png" width="80px" alt="">
-                              <div class="carrinho-item-detalhes">
-                                  <span class="carrinho-item-titulo">Caixa Engasse</span>
-                                  <div class="seletor-quantidade">
-                                      <i class="fa-solid fa-minus diminuir-quantidade"></i>
-                                      <input type="text" value="1" class="carrinho-item-quantidade" disabled>
-                                      <i class="fa-solid fa-plus aumentar-quantidade"></i>
-                                  </div>
-                                  <span class="carrinho-item-preco">R$150.00<</span>
-                              </div>
-                             <span class="btn-excluir">
-                                  <i class="fa-solid fa-trash"></i>
-                             </span>
-                          </div>
-                          <div class="carrinho-item">
-                              <img src="img/logo.png" width="80px" alt="">
-                              <div class="carrinho-item-detalhes">
-                                  <span class="carrinho-item-titulo">Glamour de Pele</span>
-                                  <div class="seletor-quantidade">
-                                      <i class="fa-solid fa-minus diminuir-quantidade"></i>
-                                      <input type="text" value="3" class="carrinho-item-quantidade" disabled>
-                                      <i class="fa-solid fa-plus aumentar-quantidade"></i>
-                                  </div>
-                                  <span class="carrinho-item-preco">R$150.00<</span>
-                              </div>
-                             <button class="btn-excluir">
-                                  <i class="fa-solid fa-trash"></i>
-                             </button>
-                          </div>
-                           -->
-                      </div>
-                      <div class="carrinho-total">
-                          <div class="linha">
-                              <strong>Seu Total</strong>
-                              <span class="carrinho-preco-total">
-                                    R$150.00
-                              </span>
-                          </div>
-                          <button class="btn-pagar">Pagar <i class="fa-solid fa-bag-shopping"></i> </button>
-                      </div>
-                  </div>
-         </section>
-  
-        <section class="section contact" id="contact">
-            <div class="contact__container container">
-              <h2 class="contact__title">Entre em Contato</h2>
-              <p class="contact__description">
-                Tem alguma dúvida ou precisa de um orçamento? Preencha o formulário abaixo ou nos envie uma mensagem diretamente pelo WhatsApp.
-              </p>
-          
-              <!-- Formulário de Contato -->
-              <form class="contact__form" id="contactForm">
-                <div class="contact__form-group">
-                  <input type="text" id="name" name="name" placeholder="Seu Nome" required />
-                </div>
-                <div class="contact__form-group">
-                  <input type="email" id="email" name="email" placeholder="Seu E-mail" required />
-                </div>
-                <div class="contact__form-group">
-                  <textarea id="message" name="message" placeholder="Sua Mensagem" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="contact__button">Enviar Mensagem</button>
-              </form>
-          
-              <!-- Subseção "Trabalhe Conosco" -->
-              <div class="work-with-us">
-                <h3 class="work-with-us__title">Trabalhe Conosco</h3>
-                <p class="work-with-us__description">
-                  Estamos sempre em busca de talentos! Envie seu currículo e faça parte da nossa equipe.
-                </p>
-                <form class="work-with-us__form" id="workWithUsForm">
-                  <div class="work-with-us__form-group">
-                    <input type="text" id="fullName" name="fullName" placeholder="Nome Completo" required />
-                  </div>
-                  <div class="work-with-us__form-group">
-                    <input type="email" id="workEmail" name="workEmail" placeholder="Seu E-mail" required />
-                  </div>
-                  <div class="work-with-us__form-group">
-                    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required />
-                  </div>
-                  <button type="submit" class="work-with-us__button">Enviar Currículo</button>
-                </form>
-              </div>
-            </div>
-       </section>
-      </main>
-  
-      <!-- Modal de Serviços -->
-      <div id="serviceModal" class="modal">
-        <div class="modal-content">
-          <span class="close" onclick="closeModal()">&times;</span>
-          <img src="img/logo.png" alt="Logo" />
-          <h2 id="modalTitle"></h2>
-          <p id="modalDescription"></p>
-          <button onclick="redirectToWhatsApp()">Solicitar Serviço</button>
+  <main>
+    <section class="hero" id="home">
+      <div class="hero__content">
+        <span class="eyebrow"><i class="ri-shield-check-line"></i> Serviços para o seu dia a dia</span>
+        <h1>O serviço que você precisa, <span>sem complicação.</span></h1>
+        <p>Reparos, limpeza, elétrica, hidráulica, pintura e muito mais em uma experiência simples e rápida.</p>
+        <a class="button button--primary" href="#services">Encontrar um serviço <i class="ri-arrow-right-line"></i></a>
+        <div class="trust-row">
+          <span><i class="ri-checkbox-circle-fill"></i> Solicitação rápida</span>
+          <span><i class="ri-checkbox-circle-fill"></i> Atendimento personalizado</span>
+          <span><i class="ri-checkbox-circle-fill"></i> Orçamento transparente</span>
         </div>
       </div>
-      
-      <!--=============== MAIN JS ===============-->
-      <script src="main.js"></script>
-      <script src="./service/app.js"></script>
-      <script src="app.js" async></script>
-   </body>
+      <div class="hero__visual" aria-hidden="true">
+        <div class="hero-card hero-card--main"><i class="ri-tools-line"></i><strong>Profissionais</strong><span>Serviços em um só lugar</span></div>
+        <div class="hero-card hero-card--floating"><i class="ri-flashlight-line"></i><span>Rápido e simples</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="section-heading">
+        <div><span class="eyebrow">Explore</span><h2>Encontre o serviço ideal</h2><p>Escolha uma categoria ou pesquise pelo que você precisa.</p></div>
+      </div>
+      <label class="search-box"><i class="ri-search-line"></i><input id="service-search" type="search" placeholder="Ex.: elétrica, limpeza, pintura..." autocomplete="off"><button id="clear-search" type="button" aria-label="Limpar pesquisa"><i class="ri-close-line"></i></button></label>
+      <div class="category-list" id="category-list" aria-label="Categorias de serviços">
+        <button class="category-chip active" data-category="all"><i class="ri-layout-grid-line"></i>Todos</button>
+        <button class="category-chip" data-category="maintenance"><i class="ri-tools-line"></i>Reparos</button>
+        <button class="category-chip" data-category="painting"><i class="ri-paint-brush-line"></i>Pintura</button>
+        <button class="category-chip" data-category="plumbing"><i class="ri-drop-line"></i>Hidráulica</button>
+        <button class="category-chip" data-category="electrical"><i class="ri-flashlight-line"></i>Elétrica</button>
+        <button class="category-chip" data-category="cleaning"><i class="ri-sparkling-line"></i>Limpeza</button>
+        <button class="category-chip" data-category="automotive"><i class="ri-car-line"></i>Automotivo</button>
+      </div>
+      <div class="services-grid" id="services-grid"></div>
+      <div class="empty-state" id="empty-state" hidden><i class="ri-search-eye-line"></i><h3>Nenhum serviço encontrado</h3><p>Tente pesquisar outro termo ou selecionar outra categoria.</p></div>
+    </section>
+
+    <section class="section how" id="how-it-works">
+      <div class="section-heading centered"><span class="eyebrow">Como funciona</span><h2>Resolva em poucos passos</h2><p>Uma jornada pensada para contratar serviços sem burocracia.</p></div>
+      <div class="steps">
+        <article><span>01</span><i class="ri-search-line"></i><h3>Escolha o serviço</h3><p>Encontre a categoria e o atendimento que melhor resolve sua necessidade.</p></article>
+        <article><span>02</span><i class="ri-file-list-3-line"></i><h3>Conte o que precisa</h3><p>Descreva o problema para prepararmos um atendimento mais preciso.</p></article>
+        <article><span>03</span><i class="ri-calendar-check-line"></i><h3>Solicite atendimento</h3><p>Envie sua solicitação e combine os próximos detalhes do serviço.</p></article>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="about__panel">
+        <div><span class="eyebrow">Sobre a plataforma</span><h2>Serviços com uma experiência melhor.</h2><p>A State Services conecta necessidades do dia a dia a uma jornada digital objetiva. Você encontra o serviço, entende como funciona e solicita atendimento em poucos passos.</p><a class="button button--light" href="#services">Ver serviços <i class="ri-arrow-right-line"></i></a></div>
+        <div class="about__stats"><div><strong>8+</strong><span>categorias</span></div><div><strong>100%</strong><span>digital</span></div><div><strong>1</strong><span>jornada simples</span></div></div>
+      </div>
+    </section>
+
+    <section class="section cta" id="contact"><div><span class="eyebrow">Precisa de ajuda?</span><h2>Não encontrou o serviço que procura?</h2><p>Conte para a gente o que você precisa e solicite um atendimento personalizado.</p></div><button class="button button--primary" id="custom-request" type="button">Solicitar atendimento <i class="ri-whatsapp-line"></i></button></section>
+  </main>
+
+  <footer><a class="brand" href="#home"><img src="img/logo.png" alt="" width="38" height="38"><span><strong>State</strong> Services</span></a><p>Serviços sob demanda em uma experiência simples.</p><small>© <span id="year"></span> State Services.</small></footer>
+
+  <nav class="bottom-nav" aria-label="Navegação principal">
+    <a href="#home" class="active-link"><i class="ri-home-5-line"></i><span>Início</span></a>
+    <a href="#services"><i class="ri-layout-grid-line"></i><span>Serviços</span></a>
+    <a href="#how-it-works"><i class="ri-route-line"></i><span>Como funciona</span></a>
+    <a href="#about"><i class="ri-information-line"></i><span>Sobre</span></a>
+  </nav>
+
+  <div class="modal" id="service-modal" hidden>
+    <div class="modal__backdrop" data-close-modal></div>
+    <article class="modal__sheet" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal__close" type="button" data-close-modal aria-label="Fechar"><i class="ri-close-line"></i></button>
+      <div class="modal__icon" id="modal-icon"><i class="ri-tools-line"></i></div>
+      <span class="eyebrow">Detalhes do serviço</span><h2 id="modal-title"></h2><p id="modal-description"></p><strong class="modal__price" id="modal-price"></strong>
+      <div class="modal__note"><i class="ri-information-line"></i><span>O valor final pode variar conforme os detalhes e condições do atendimento.</span></div>
+      <button class="button button--primary button--full" id="request-service" type="button">Solicitar este serviço <i class="ri-arrow-right-line"></i></button>
+    </article>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="main.js"></script>
+</body>
 </html>
