@@ -13,20 +13,26 @@ const sections=[...document.querySelectorAll('section[id]')];const navLinks=[...
 
 function initSpatialJourney(){
  const gsap=window.gsap;const ScrollTrigger=window.ScrollTrigger;const section=document.querySelector('.how-spatial');
- if(!gsap||!ScrollTrigger||!section||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
- gsap.registerPlugin(ScrollTrigger);section.classList.add('gsap-journey');
- const steps=gsap.utils.toArray('.spatial-step',section);const paths=gsap.utils.toArray('.journey-path',section);const dots=gsap.utils.toArray('.journey-dot',section);
- gsap.set(steps,{clearProps:'x,xPercent'});
- gsap.set(steps,{y:0,autoAlpha:0,z:-160,scale:.86,filter:'blur(3px)',transformOrigin:'50% 50%',force3D:true});
- paths.forEach(path=>{const length=path.getTotalLength();gsap.set(path,{strokeDasharray:length,strokeDashoffset:length,autoAlpha:.18});path.dataset.length=length});
- gsap.set(dots,{autoAlpha:0,scale:.45,transformOrigin:'50% 50%'});
- const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:section,start:'top top',end:'+=230%',pin:'.spatial-sticky',scrub:.55,anticipatePin:1,invalidateOnRefresh:true}});
- steps.forEach((step,index)=>{
-   const at=index*.9;
-   tl.to(step,{autoAlpha:1,z:0,scale:1,filter:'blur(0px)',duration:.5,ease:'power2.out'},at);
-   if(index<paths.length){const length=Number(paths[index].dataset.length);tl.to(paths[index],{strokeDashoffset:0,autoAlpha:1,duration:.3},at+.43).to(dots[index],{autoAlpha:1,scale:1,duration:.12,ease:'power2.out'},at+.56)}
- });
- tl.to({}, {duration:.9});
- window.addEventListener('load',()=>ScrollTrigger.refresh(),{once:true});
+ if(!section)return;
+ const steps=[...section.querySelectorAll('.spatial-step')];const paths=[...section.querySelectorAll('.journey-path')];const dots=[...section.querySelectorAll('.journey-dot')];
+ // Safe fallback: without GSAP/ScrollTrigger or with reduced motion, the complete diagram stays visible.
+ if(!gsap||!ScrollTrigger||window.matchMedia('(prefers-reduced-motion: reduce)').matches){steps.forEach(step=>{step.style.opacity='1';step.style.visibility='visible';step.style.transform='none';step.style.filter='none'});paths.forEach(path=>{path.style.opacity='1';path.style.strokeDasharray='none';path.style.strokeDashoffset='0'});dots.forEach(dot=>{dot.style.opacity='1';dot.style.transform='none'});return}
+ try{
+  gsap.registerPlugin(ScrollTrigger);
+  section.classList.add('gsap-journey');
+  gsap.set(steps,{clearProps:'x,xPercent'});
+  gsap.set(steps,{y:0,autoAlpha:0,z:-160,scale:.86,filter:'blur(3px)',transformOrigin:'50% 50%',force3D:true});
+  paths.forEach(path=>{const length=path.getTotalLength();gsap.set(path,{strokeDasharray:length,strokeDashoffset:length,autoAlpha:.18});path.dataset.length=length});
+  gsap.set(dots,{autoAlpha:0,scale:.45,transformOrigin:'50% 50%'});
+  const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:section,start:'top top',end:'+=230%',pin:'.spatial-sticky',scrub:.55,anticipatePin:1,invalidateOnRefresh:true}});
+  steps.forEach((step,index)=>{const at=index*.9;tl.to(step,{autoAlpha:1,z:0,scale:1,filter:'blur(0px)',duration:.5,ease:'power2.out'},at);if(index<paths.length){const length=Number(paths[index].dataset.length);tl.to(paths[index],{strokeDashoffset:0,autoAlpha:1,duration:.3},at+.43).to(dots[index],{autoAlpha:1,scale:1,duration:.12,ease:'power2.out'},at+.56)}});
+  tl.to({}, {duration:.9});
+  requestAnimationFrame(()=>ScrollTrigger.refresh());
+ }catch(error){
+  section.classList.remove('gsap-journey');
+  gsap.set(steps,{clearProps:'all'});gsap.set(paths,{clearProps:'all'});gsap.set(dots,{clearProps:'all'});
+  console.error('Spatial journey fallback:',error);
+ }
 }
-renderServices();updateNavigation();initSpatialJourney();
+renderServices();updateNavigation();
+if(document.readyState==='complete')initSpatialJourney();else window.addEventListener('load',initSpatialJourney,{once:true});
