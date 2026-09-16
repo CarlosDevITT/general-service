@@ -16,17 +16,18 @@ function initSpatialJourney(){
  if(!gsap||!ScrollTrigger||!section||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
  gsap.registerPlugin(ScrollTrigger);section.classList.add('gsap-journey');
  const steps=gsap.utils.toArray('.spatial-step',section);const paths=gsap.utils.toArray('.journey-path',section);const dots=gsap.utils.toArray('.journey-dot',section);
- // Flexbox owns horizontal centering. Clear legacy horizontal transforms before GSAP takes over animation transforms.
  gsap.set(steps,{clearProps:'x,xPercent'});
- gsap.set(steps,{y:0,autoAlpha:0,z:-200,scale:.8,filter:'blur(4px)',transformOrigin:'50% 50%',force3D:true});
- paths.forEach(path=>{const length=path.getTotalLength();gsap.set(path,{strokeDasharray:length,strokeDashoffset:length,autoAlpha:.22});path.dataset.length=length});
- gsap.set(dots,{autoAlpha:0,scale:.4,transformOrigin:'50% 50%'});
- const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:section,start:'top top',end:'+=260%',pin:'.spatial-sticky',scrub:.65,anticipatePin:1,invalidateOnRefresh:true}});
+ gsap.set(steps,{y:0,autoAlpha:0,z:-160,scale:.86,filter:'blur(3px)',transformOrigin:'50% 50%',force3D:true});
+ paths.forEach(path=>{const length=path.getTotalLength();gsap.set(path,{strokeDasharray:length,strokeDashoffset:length,autoAlpha:.18});path.dataset.length=length});
+ gsap.set(dots,{autoAlpha:0,scale:.45,transformOrigin:'50% 50%'});
+ const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:section,start:'top top',end:'+=230%',pin:'.spatial-sticky',scrub:.55,anticipatePin:1,invalidateOnRefresh:true}});
  steps.forEach((step,index)=>{
-   const at=index*1.05;
-   tl.to(step,{autoAlpha:1,z:0,scale:1,filter:'blur(0px)',duration:.62,ease:'power2.out'},at);
-   if(index<paths.length){const length=Number(paths[index].dataset.length);tl.to(paths[index],{strokeDashoffset:0,autoAlpha:1,duration:.38},at+.54).to(dots[index],{autoAlpha:1,scale:1,duration:.14,ease:'power2.out'},at+.72)}
+   const at=index*.9;
+   tl.to(step,{autoAlpha:1,z:0,scale:1,filter:'blur(0px)',duration:.5,ease:'power2.out'},at);
+   if(index<paths.length){const length=Number(paths[index].dataset.length);tl.to(paths[index],{strokeDashoffset:0,autoAlpha:1,duration:.3},at+.43).to(dots[index],{autoAlpha:1,scale:1,duration:.12,ease:'power2.out'},at+.56)}
  });
+ // Hold the fully assembled journey at the end so nothing fades/disappears before unpinning.
+ tl.to({}, {duration:.9});
  window.addEventListener('load',()=>ScrollTrigger.refresh(),{once:true});
 }
 renderServices();updateNavigation();initSpatialJourney();
