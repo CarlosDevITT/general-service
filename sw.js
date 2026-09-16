@@ -1,7 +1,7 @@
-const VERSION='v3';
+const VERSION='v4';
 const STATIC_CACHE=`state-services-static-${VERSION}`;
 const RUNTIME_CACHE=`state-services-runtime-${VERSION}`;
-const APP_SHELL=['/','/index.html','/styles.css','/spatial-fix.css','/main.js','/manifest.json','/src/data/services.js','/src/utils/currency.js','/img/logo.png','/img/app-icon.svg','/img/app-icon-maskable.svg'];
+const APP_SHELL=['/','/index.html','/styles.css','/spatial-fix.css','/splash.css','/main.js','/manifest.json','/src/data/services.js','/src/utils/currency.js','/img/logo.png','/img/app-icon.svg','/img/app-icon-maskable.svg'];
 
 self.addEventListener('install',event=>{event.waitUntil(caches.open(STATIC_CACHE).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>!key.endsWith(VERSION)).map(key=>caches.delete(key)))).then(()=>self.clients.claim()))});
