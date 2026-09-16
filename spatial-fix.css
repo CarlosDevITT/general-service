@@ -1,0 +1,47 @@
+/* Spatial journey refinement: compact cards, cleaner depth and mobile-safe composition. */
+.how-spatial{height:300vh}
+.spatial-sticky{perspective:1200px}
+.spatial-scene{perspective:1100px}
+.spatial-step{width:min(290px,38%);min-height:150px;padding:18px;grid-template-columns:44px 1fr;gap:12px;border-radius:20px;background:rgba(15,23,42,.68);box-shadow:0 22px 60px rgba(0,0,0,.24)}
+.step-icon{width:42px;height:42px;border-radius:13px;font-size:21px}
+.spatial-step h3{font-size:17px;margin:5px 0}
+.spatial-step p{font-size:11px;line-height:1.45}
+.spatial-step .step-number{right:14px;top:12px;font-size:10px}
+.spatial-core{display:none!important}
+@supports (animation-timeline:scroll()){
+ .spatial-step--1{animation-range:entry 7% exit 34%}
+ .spatial-step--2{animation-range:entry 27% exit 54%}
+ .spatial-step--3{animation-range:entry 47% exit 74%}
+ .spatial-step--4{animation-range:entry 67% exit 94%}
+}
+@keyframes spatialFly{0%{opacity:0;filter:blur(4px);transform:translateZ(-900px) scale(.28)}28%{opacity:.72;filter:blur(1px);transform:translateZ(-300px) scale(.68)}48%{opacity:1;filter:blur(0);transform:translateZ(-40px) scale(.94)}68%{opacity:1;filter:blur(0);transform:translateZ(100px) scale(1.04)}100%{opacity:0;filter:blur(5px);transform:translateZ(780px) scale(1.45)}}
+@media(max-width:900px){
+ .how-spatial{height:320vh}
+ .spatial-sticky{height:100svh;padding:78px 18px 78px;display:block;background:radial-gradient(circle at 50% 65%,rgba(37,99,235,.16),transparent 38%),#080d18}
+ .spatial-heading{height:31%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 8px}
+ .spatial-heading h2{font-size:clamp(30px,8vw,42px);line-height:1.02;margin:8px 0 10px;max-width:420px}
+ .spatial-heading p{font-size:12px;line-height:1.5;max-width:310px}
+ .spatial-scene{height:65%;width:100%;perspective:1250px}
+ .spatial-step{left:50%!important;right:auto!important;top:50%!important;bottom:auto!important;width:min(300px,82vw);min-height:118px;padding:14px 16px;grid-template-columns:38px 1fr;gap:10px;transform:translate(-50%,-50%);border-radius:18px}
+ .step-icon{width:36px;height:36px;border-radius:11px;font-size:18px}
+ .spatial-step small{font-size:8px}
+ .spatial-step h3{font-size:15px;margin:3px 0 4px}
+ .spatial-step p{font-size:10px;line-height:1.4;max-width:210px}
+ .spatial-ring--one{width:55%}.spatial-ring--two{width:78%}
+ @supports (animation-timeline:scroll()){
+  .spatial-step{animation-name:spatialFlyMobile}
+ }
+}
+@keyframes spatialFlyMobile{0%{opacity:0;filter:blur(5px);transform:translate(-50%,-50%) translateZ(-950px) scale(.22)}30%{opacity:.65;filter:blur(1px);transform:translate(-50%,-50%) translateZ(-300px) scale(.62)}48%{opacity:1;filter:blur(0);transform:translate(-50%,-50%) translateZ(-40px) scale(.9)}64%{opacity:1;filter:blur(0);transform:translate(-50%,-50%) translateZ(90px) scale(1)}100%{opacity:0;filter:blur(5px);transform:translate(-50%,-50%) translateZ(850px) scale(1.32)}}
+@media(max-width:600px){
+ .how-spatial{height:330vh}
+ .spatial-sticky{padding-top:70px;padding-bottom:72px}
+ .spatial-heading{height:34%;justify-content:flex-start;padding-top:16px}
+ .spatial-heading .eyebrow{font-size:11px}
+ .spatial-heading h2{font-size:32px;max-width:330px}
+ .spatial-heading p{font-size:11px;max-width:280px}
+ .spatial-scene{height:62%}
+ .spatial-step{width:min(270px,78vw);min-height:104px;padding:12px 14px}
+ .spatial-step p{font-size:9.5px}
+}
+@media(prefers-reduced-motion:reduce){.spatial-step{filter:none!important}}
