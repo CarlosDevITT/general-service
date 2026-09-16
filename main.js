@@ -26,12 +26,22 @@ function initSpatialJourney(){
   paths.forEach(path=>{const length=path.getTotalLength();gsap.set(path,{strokeDasharray:`${length} ${length}`,strokeDashoffset:length,autoAlpha:.25});path.dataset.length=String(length)});
   gsap.set(dots,{autoAlpha:0,scale:.5,transformOrigin:'50% 50%'});
   const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{id:'spatialJourney',trigger:section,start:'top top',end:()=>`+=${Math.max(window.innerHeight*2.6,1800)}`,pin:sticky,pinSpacing:true,scrub:.45,anticipatePin:1,invalidateOnRefresh:true,fastScrollEnd:false}});
-  steps.forEach((step,index)=>{const at=index*.82;tl.to(step,{autoAlpha:1,z:0,scale:1,filter:'blur(0px)',duration:.38,ease:'power2.out'},at);if(index<paths.length){const length=Number(paths[index].dataset.length);tl.to(paths[index],{strokeDashoffset:0,autoAlpha:1,duration:.28},at+.32).to(dots[index],{autoAlpha:1,scale:1,duration:.1,ease:'power2.out'},at+.46)}});
+  steps.forEach((step,index)=>{const at=index*.82;tl.to(step,{autoAlpha:1,z:0,scale:1,filter:'blur(0px)',duration:.38,ease:'power2.out'},at);if(index<paths.length){tl.to(paths[index],{strokeDashoffset:0,autoAlpha:1,duration:.28},at+.32).to(dots[index],{autoAlpha:1,scale:1,duration:.1,ease:'power2.out'},at+.46)}});
   tl.to(steps,{autoAlpha:1,z:0,scale:1,filter:'blur(0px)',duration:.35},3.35).to(paths,{strokeDashoffset:0,autoAlpha:1,duration:.2},3.35).to(dots,{autoAlpha:1,scale:1,duration:.2},3.35).to({}, {duration:.65});
-  const refresh=()=>requestAnimationFrame(()=>ScrollTrigger.refresh());
-  refresh();setTimeout(refresh,250);setTimeout(refresh,900);
+  const refresh=()=>requestAnimationFrame(()=>ScrollTrigger.refresh());refresh();setTimeout(refresh,250);setTimeout(refresh,900);
  }catch(error){console.error('Spatial journey fallback:',error);revealAll()}
 }
-renderServices();updateNavigation();
+
+function registerPWA(){
+ if(!('serviceWorker' in navigator))return;
+ window.addEventListener('load',async()=>{
+  try{
+   const registration=await navigator.serviceWorker.register('/sw.js',{scope:'/',updateViaCache:'none'});
+   registration.update();
+   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')registration.update()});
+  }catch(error){console.warn('PWA service worker unavailable:',error)}
+ },{once:true});
+}
+renderServices();updateNavigation();registerPWA();
 if(document.readyState==='complete')initSpatialJourney();else window.addEventListener('load',initSpatialJourney,{once:true});
 window.addEventListener('pageshow',event=>{if(event.persisted&&window.ScrollTrigger)window.ScrollTrigger.refresh()});
