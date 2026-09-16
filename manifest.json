@@ -1,21 +1,27 @@
 {
-    "name": "Serviços Gerais - State Tools",
-    "short_name": "Serviços Gerais",
-    "description": "Serviços Gerais - As melhores ferramentas para aumentar sua produtividade.",
-    "icons": [
-      {
-        "src": "img/logo.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      },
-      {
-        "src": "img/logo.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
-    "display": "standalone",
-    "start_url": "/index.html"
-  }
+  "id": "/",
+  "name": "State Services",
+  "short_name": "State Services",
+  "description": "Plataforma para solicitar, agendar e acompanhar serviços.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "img/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
