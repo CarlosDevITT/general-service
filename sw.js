@@ -1,4 +1,4 @@
-const VERSION='v15';
+const VERSION='v16';
 const STATIC_CACHE=`state-services-static-${VERSION}`;
 const RUNTIME_CACHE=`state-services-runtime-${VERSION}`;
 const APP_SHELL=['/','/index.html','/styles.css','/spatial-fix.css','/header-fix.css','/explore-layout.css','/splash.css','/request-flow.css','/request-tracking.css','/main.js','/how-it-works.js','/manifest.json','/src/data/services.js','/src/utils/currency.js','/src/ui/request-flow.js','/src/ui/request-tracking.js','/src/ui/service-search.js','/img/logo.png','/img/app-icon.svg','/img/app-icon-maskable.svg'];
