@@ -1,7 +1,7 @@
-const VERSION='v21';
+const VERSION='v22';
 const STATIC_CACHE=`state-services-static-${VERSION}`;
 const RUNTIME_CACHE=`state-services-runtime-${VERSION}`;
-const APP_SHELL=['/','/index.html','/styles.css','/spatial-fix.css','/header-fix.css','/explore-layout.css','/splash.css','/request-flow.css','/request-tracking.css','/customer-area.css','/main.js','/how-it-works.js','/manifest.json','/src/data/services.js','/src/utils/currency.js','/src/ui/request-flow.js','/src/ui/request-tracking.js','/src/ui/service-search.js','/src/ui/customer-area.js','/img/logo.png','/img/app-icon.svg','/img/app-icon-maskable.svg'];
+const APP_SHELL=['/','/index.html','/styles.css','/spatial-fix.css','/header-fix.css','/explore-layout.css','/splash.css','/request-flow.css','/request-tracking.css','/customer-area.css','/pwa-install.css','/main.js','/how-it-works.js','/manifest.json','/src/data/services.js','/src/utils/currency.js','/src/ui/request-flow.js','/src/ui/request-tracking.js','/src/ui/service-search.js','/src/ui/customer-area.js','/src/ui/pwa-install.js','/img/logo.png','/img/app-icon.svg','/img/app-icon-maskable.svg'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(STATIC_CACHE).then(cache=>cache.addAll(APP_SHELL)))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('state-services-')&&!key.endsWith(VERSION)).map(key=>caches.delete(key)))).then(()=>self.clients.claim()))});
 async function networkFirst(request,fallback){try{const response=await fetch(request,{cache:'no-store'});if(response&&response.ok){const cache=await caches.open(RUNTIME_CACHE);await cache.put(request,response.clone())}return response}catch(error){return(await caches.match(request))||(fallback?await caches.match(fallback):undefined)||Response.error()}}
