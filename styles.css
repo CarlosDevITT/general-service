@@ -17,3 +17,11 @@
 #auth-form[hidden],#auth-choice[hidden],[data-signup-only][hidden],[data-auth-reset][hidden]{display:none!important}
 .auth-modal .modal__sheet{max-height:min(760px,calc(100dvh - 24px));overflow-y:auto}
 .auth-modal #auth-choice .button{margin-top:12px}
+
+/* Hero commercial video */
+.hero__media{background:#0f172a;isolation:isolate}
+.hero__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0}
+.hero__video-shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 52%,rgba(15,23,42,.24))}
+.hero__media .hero-card--floating{z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(12px)}
+@media(max-width:600px){.hero{gap:28px}.hero__media{width:100%;height:auto;aspect-ratio:9/12;max-height:58vh;border-radius:24px}.hero__video{object-position:center}.hero__media .hero-card--floating{right:12px;bottom:12px}}
+@media(prefers-reduced-motion:reduce){.hero__video{display:none}.hero__media{background:linear-gradient(145deg,#eff6ff,#eef2ff)}}
