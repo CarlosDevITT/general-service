@@ -1,4 +1,4 @@
-const VERSION='v34';
+const VERSION='v35';
 const STATIC_CACHE=`state-services-static-${VERSION}`;
 const RUNTIME_CACHE=`state-services-runtime-${VERSION}`;
 const APP_SHELL=['/','/index.html','/styles.css','/spatial-fix.css','/header-fix.css','/explore-layout.css','/splash.css','/request-flow.css','/request-tracking.css','/customer-area.css','/pwa-install.css','/main.js','/how-it-works.js','/manifest.json','/src/data/services.js','/src/utils/currency.js','/src/ui/request-flow.js','/src/ui/request-tracking.js','/src/ui/service-search.js','/src/ui/customer-area.js','/src/ui/pwa-install.js','/src/services/supabase.js','/src/services/api.js','/src/services/auth-ui.js','/img/logo.png','/img/app-icon.svg','/img/app-icon-maskable.svg'];
